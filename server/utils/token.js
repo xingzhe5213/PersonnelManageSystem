@@ -17,7 +17,7 @@ exports.setToken = function(username,userid){
 // 解析token
 exports.verToken = function(token) {
 	return new Promise((resolve, reject) => {
-		let info = jwt.verify(token.split(' ')[1], this.signKey);
+		let info = jwt.verify(token.split(' ')[1],this.signKey);
 		resolve(info);
 	})
 }
