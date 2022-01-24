@@ -3,14 +3,39 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js",
+    "dev": "node-dev app.js",
+    "sequelize-automate": "sequelize-automate -t js -h 1.116.234.220 -d persystem -u xingzhe -p xingzhe -P 3306  -e mysql -o models",
+    "apidoc": "apidoc -i routes/ -o apidoc/"
   },
   "dependencies": {
+    "apidoc": "^0.50.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.17.2",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
-    "pug": "2.0.0-beta11"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "node-dev": "^7.1.0",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^6.12.5",
+    "sequelize-automate": "^1.2.2",
+    "svg-captcha": "^1.4.0"
+  },
+  "apidoc": {
+    "name": "人事管理系统接口文档",
+    "description": "",
+    "version": "1.0.0",
+    "title": "人事管理系统接口文档",
+    "url": "http://localhost:3000/api",
+    "sampleUrl": "http://localhost:3000/api"
+  },
+  "devDependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "express-jwt": "^6.1.0"
   }
 }
