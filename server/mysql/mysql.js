@@ -1,4 +1,4 @@
-let mysql = require('mysql'); //引入mysql模块
+let mysql = require('mysql');  //引入mysql模块
 let databaseConfig = require('./config');  //引入数据库配置模块中的数据
 
 module.exports = {
