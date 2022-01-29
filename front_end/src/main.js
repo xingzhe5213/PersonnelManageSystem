@@ -15,6 +15,7 @@ import {PostKey} from "./utils/api";
 import {Put} from "./utils/api";
 import {Delete} from "./utils/api";
 import {Get} from "./utils/api";
+import {initMenu} from "./utils/menus";
 
 Vue.prototype.Post = Post;
 Vue.prototype.PostKey = PostKey;
@@ -27,6 +28,19 @@ Vue.prototype.$store = store;
 import 'font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  if (to.path == '/') {
+    next();
+  } else {
+    if (window.sessionStorage.getItem("user")) {
+      initMenu(router, store);
+      next();
+    } else {
+      next('/');
+    }
+  }
+})
 
 new Vue({
   router,
