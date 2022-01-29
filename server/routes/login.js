@@ -75,7 +75,6 @@ router.get('/verifyCode',function(req,res,next){
  */
 
 router.post('/login',function(req,res,next){
-  console.log(req.body);
   if(req.body.code==verifyCode){
     db.query('select * from leader where username=?', [req.body.username],function(info,fields) {
       if (!info[0].password) {
