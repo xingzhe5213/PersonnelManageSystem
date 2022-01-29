@@ -6,8 +6,6 @@ const verToken = require('../utils/token');
 // 解析token获取用户信息
 router.use(function(req, res, next) {
 	let token = req.headers['Authorization'];
-	// console.log(req.headers);
-	// console.log(token)
 	if(token == undefined){
 		return next();
 	}else{
@@ -38,6 +36,9 @@ router.use(function (err, req, res, next) {
 // 登录相关
 const login = require('./login');
 
+const system = require('./system/menus');
+
 router.use('/', login);
+router.use('/system/', system);
 
 module.exports = router;
