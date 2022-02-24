@@ -23,22 +23,25 @@ router.use(expressJwt({
 	secret: verToken.signKey,
 	algorithms: ['HS256']
 }).unless({
-	path: ['/api/verifyCode','/api/login'] //除了登录和获取验证码，其他的URL都需要验证
+	path: ['/api/verifyCode','/api/login','/api/person/face'] //除了登录和获取验证码，其他的URL都需要验证
 }));
 
 //当token失效返回提示信息
 router.use(function (err, req, res, next) {
 	if (err.status === 401) {
-		res.status(401).send("干嘛呢？你想硬闯？！！")
+		res.status(401).send("未登录");
 	}
 })
 
 // 登录相关
 const login = require('./login');
-
-const system = require('./system/menus');
+// 系统信息
+const system = require('./system/system');
+// 个人信息
+const person = require('./person/person');
 
 router.use('/', login);
 router.use('/system/', system);
+router.use('/person/', person);
 
 module.exports = router;
