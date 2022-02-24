@@ -1,12 +1,11 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
-import store from '../store'
 
 //请求拦截器
 axios.interceptors.request.use(
     config => {
-        const token = store.state.token;
+        const token = window.sessionStorage.getItem("token");
         token && (config.headers.Authorization = 'Bearer ' + token);
         return config;
     },
