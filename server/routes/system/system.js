@@ -3,30 +3,10 @@ const router = express.Router();
 const db=require('../../mysql/mysql.js');
 
 /**
- * @api {post} /system/menus 获取菜单
- * @apiDescription 获取用户菜单
- * @apiName menus
+ * @api {get} /system/menus 获取菜单
  * @apiGroup 系统信息
- * @apiBody {string} username用户名
- * @apiBody {string} password密码
- * @apiBody {string} code验证码
- * @apiParamExample {json} Request-Example:
- *     {
- *       "username": "admin",
- *       "password": "123456",
- *       "code": "qwer"
- *     }
- * @apiSuccess {number} code 返回200为成功
- * @apiSuccess {string} message  响应状态
- * @apiSuccess {object} data 查询的数据
- * @apiSuccess {string} token 令牌
- * @apiSuccessExample {json} 成功回调:
- *  {
- *     code: 200
- *     message: "登陆成功"
- *     data: {}
- *     token: ""
- *  }
+ * @apiDescription 获取用户菜单
+ * @apiHeader {String} authorization token
  * @apiSampleRequest /system/menus
  * @apiVersion 1.0.0
  */
