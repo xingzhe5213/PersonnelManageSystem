@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     updateVerifyCode() {
-      this.Get('/verifyCode').then(res => {
+      this.Get('/api/verifyCode').then(res => {
           this.svg = res.data;
       })
     },
@@ -60,14 +60,14 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.Post('/login', {
+          this.Post('/api/login', {
             username: this.loginForm.username,
             password: (this.$md5(this.loginForm.password)).toUpperCase(),
             code: this.loginForm.code
           }).then(res => {
             this.loading = false;
             if (res && res.code==200) {
-              this.$store.commit('initToken', res.token);
+              window.sessionStorage.setItem("token", res.token);
               this.$store.commit('initCurrentUser', res.data);
               window.sessionStorage.setItem("user", JSON.stringify(res.data));
               let path = this.$route.query.redirect;
