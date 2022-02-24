@@ -20,7 +20,7 @@
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <el-menu router unique-opened>
+          <el-menu router unique-opened :style="{height: divHeight}">
             <el-submenu :index="index+''" v-for="(item,index) in routes"  :key="index">
               <template slot="title">
                 <i style="color: #409eff;margin-right: 5px" :class="item.iconClass"></i>
@@ -52,6 +52,7 @@ export default {
   name: "Home",
   data(){
     return{
+      divHeight: null,
       faceImg:"/face.png"
     }
   },
@@ -65,11 +66,17 @@ export default {
     }
   },
   mounted() {
+    this.setHeight();
     if(this.user.userface){
       this.faceImg=this.user.userface;
     }
   },
   methods: {
+    setHeight(){
+      let windowHeight = window.innerHeight;
+      windowHeight = windowHeight - 62;
+      this.divHeight = windowHeight + "px";
+    },
     commandHandler(cmd) {
       if (cmd == 'logout') {
         this.$confirm('此操作将注销登录, 是否继续?', '提示', {
