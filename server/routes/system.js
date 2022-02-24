@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db=require('../mysql/mysql.js');
 
 /**
  * @api {get} /system/menus 获取菜单
