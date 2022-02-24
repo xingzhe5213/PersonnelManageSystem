@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
-const db=require('../../mysql/mysql.js');
+const db=require('../mysql/mysql.js');
 
 let userid="";
 
