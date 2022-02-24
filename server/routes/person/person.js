@@ -102,7 +102,6 @@ router.put('/info',function(req,res,next){
  */
 
 router.put('/passwd',function(req,res,next){
-	console.log(req.body);
 	db.query('select password from leader where id=?', [req.user._id],function(info,fields) {
 		if (req.body.oldpassword == info[0].password) {
 			db.query('update leader set password=? where id=?', [req.body.password,req.user._id],function(info,fields) {
