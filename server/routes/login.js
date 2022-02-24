@@ -8,18 +8,11 @@ let verifyCode = "";
 
 /**
  * @api {get} /verifyCode 获取验证码
- * @apiDescription 获取验证码
- * @apiName verifyCode
  * @apiGroup 登录相关
+ * @apiDescription 获取验证码
  * @apiSuccess {number} code 返回200为成功
  * @apiSuccess {string} message  响应状态
- * @apiSuccess {object} data 返回的验证码svg格式图片数据
- * @apiSuccessExample {json} 成功回调:
- *  {
- *      code : 200,
- *      message  : "成功",
- *      data:{}
- *  }
+ * @apiSuccess {string} data 返回的验证码svg格式图片数据
  * @apiSampleRequest /verifyCode
  * @apiVersion 1.0.0
  */
@@ -47,9 +40,8 @@ router.get('/verifyCode',function(req,res,next){
 
 /**
  * @api {post} /login 登录
- * @apiDescription 登录系统
- * @apiName login
  * @apiGroup 登录相关
+ * @apiDescription 登录系统
  * @apiBody {string} username用户名
  * @apiBody {string} password密码
  * @apiBody {string} code验证码
@@ -61,15 +53,8 @@ router.get('/verifyCode',function(req,res,next){
  *     }
  * @apiSuccess {number} code 返回200为成功
  * @apiSuccess {string} message  响应状态
- * @apiSuccess {object} data 查询的数据
+ * @apiSuccess {object} data 返回的数据
  * @apiSuccess {string} token 令牌
- * @apiSuccessExample {json} 成功回调:
- *  {
- *     code: 200
- *     message: "登陆成功"
- *     data: {}
- *     token: ""
- *  }
  * @apiSampleRequest /login
  * @apiVersion 1.0.0
  */
