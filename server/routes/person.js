@@ -127,21 +127,14 @@ router.put('/passwd',function(req,res,next){
  * @apiGroup 个人信息
  * @apiDescription 修改用户头像
  * @apiHeader {String} authorization token
- * @apiBody {string} name姓名
- * @apiBody {string} address地址
- * @apiBody {string} phone手机号码
- * @apiParamExample {json} Request-Example:
- *     {
- *       "name": "李白",
- *       "address": "湖北黄石",
- *       "phone": "15678378739"
- *     }
  * @apiSuccess {number} code 返回200为成功
  * @apiSuccess {string} message  响应状态
+ * @apiSuccess {object} data  返回的图片信息
  * @apiSuccessExample {json} 成功回调:
  *  {
  *     code: 200
  *     message: "成功"
+ *     data: {}
  *  }
  * @apiSampleRequest /person/face
  * @apiVersion 1.0.0
