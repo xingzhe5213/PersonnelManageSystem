@@ -36,6 +36,8 @@ export const formatRoutes = (routes) => {
             component(resolve) {
                 if (component.startsWith("Home")) {
                     require(['../pages/' + component + '.vue'], resolve);
+                } else if (component.startsWith("staff")) {
+                    require(['../pages/staff/' + component + '.vue'], resolve);
                 }
             }
         }
