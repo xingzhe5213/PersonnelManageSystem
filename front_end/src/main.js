@@ -8,6 +8,9 @@ import ElementUI from  'element-ui';
 Vue.use(ElementUI);
 import 'element-ui/lib/theme-chalk/index.css';
 
+import ElSelectTree from 'el-select-tree';
+Vue.use(ElSelectTree);
+
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
 
 import {Post} from "./utils/api";
