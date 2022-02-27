@@ -36,12 +36,18 @@ router.use(function (err, req, res, next) {
 // 登录相关
 const login = require('./login');
 // 系统信息
-const system = require('./system/system');
+const system = require('./system');
 // 个人信息
-const person = require('./person/person');
+const person = require('./person');
+// 员工信息
+const employee = require('./employee');
+// 基础信息
+const base = require('./base');
 
 router.use('/', login);
 router.use('/system/', system);
 router.use('/person/', person);
+router.use('/employee/', employee);
+router.use('/base/', base);
 
 module.exports = router;
