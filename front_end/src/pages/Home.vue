@@ -32,7 +32,7 @@
             </el-submenu>
           </el-menu>
         </el-aside>
-        <el-main style="height: 660px; flex-grow: 1;">
+        <el-main :style="{height: divHeight}" style="flex-grow: 1;">
           <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$router.currentRoute.path!='/home'">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
@@ -58,7 +58,6 @@ export default {
   },
   computed: {
     routes() {
-      console.log(this.$store.state.routes);
       return this.$store.state.routes;
     },
     user() {
@@ -66,6 +65,11 @@ export default {
     }
   },
   mounted() {
+    window.onresize = () => {
+      return (() => {
+        this.setHeight();
+      })();
+    };
     this.setHeight();
     if(this.user.userface){
       this.faceImg=this.user.userface;
@@ -74,8 +78,7 @@ export default {
   methods: {
     setHeight(){
       let windowHeight = window.innerHeight;
-      windowHeight = windowHeight - 62;
-      this.divHeight = windowHeight + "px";
+      this.divHeight = windowHeight - 61 + "px";
     },
     commandHandler(cmd) {
       if (cmd == 'logout') {
