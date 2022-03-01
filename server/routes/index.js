@@ -43,11 +43,14 @@ const person = require('./person');
 const employee = require('./employee');
 // 基础信息
 const base = require('./base');
+// 系统管理
+const sys = require('./system/');
 
 router.use('/', login);
 router.use('/system/', system);
 router.use('/person/', person);
 router.use('/employee/', employee);
 router.use('/base/', base);
+router.use('/sys/', sys);
 
 module.exports = router;
