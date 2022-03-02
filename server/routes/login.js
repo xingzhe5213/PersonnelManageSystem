@@ -67,7 +67,7 @@ router.post('/login',function(req,res,next){
           code: -1,
           message: "用户名不存在！"
         });
-      } else if (req.body.password == info[0].password) {
+      } else if (req.body.password == info[0].password&&info[0].enabled==1) {
         let data=info[0];
         data.password=null;
         db.query('SELECT role.id, role.name, role.nameZH FROM role LEFT JOIN leader_role ON leader_role.roleid = role.id WHERE leader_role.leaderid=? ORDER BY role.id ASC',
@@ -82,6 +82,11 @@ router.post('/login',function(req,res,next){
             });
           })
         })
+      }else if(req.body.password == info[0].password&&info[0].enabled==0){
+        res.json({
+          code: 201,
+          message: "账号已禁用！"
+        });
       } else {
         res.json({
           code: -1,
