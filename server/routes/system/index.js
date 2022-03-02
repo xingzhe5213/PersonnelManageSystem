@@ -9,10 +9,13 @@ const position = require('./position');
 const joblevel = require('./joblevel');
 // 权限信息
 const permiss = require('./permiss');
+// 权限信息
+const admin = require('./admin');
 
 router.use('/base/department/', department);
 router.use('/base/position/', position);
 router.use('/base/joblevel/', joblevel);
 router.use('/base/permiss/', permiss);
+router.use('/adm/leader/', admin);
 
 module.exports = router;
