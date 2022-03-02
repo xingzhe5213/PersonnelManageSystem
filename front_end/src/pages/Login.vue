@@ -72,6 +72,9 @@ export default {
               window.sessionStorage.setItem("user", JSON.stringify(res.data));
               let path = this.$route.query.redirect;
               this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
+            }else if(res.code==201){
+              this.$message.error({message:res.message});
+              this.updateVerifyCode();
             }else{
               this.$message.error({message:res.message});
               this.updateVerifyCode();
