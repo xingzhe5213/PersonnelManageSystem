@@ -30,6 +30,8 @@ Vue.prototype.$store = store;
 
 import 'font-awesome/css/font-awesome.min.css'
 
+import '/src/font/iconfont.css'
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
