@@ -23,10 +23,11 @@
           <el-menu router unique-opened :style="{height: divHeight}">
             <el-submenu :index="index+''" v-for="(item,index) in routes"  :key="index">
               <template slot="title">
-                <i style="color: #409eff;margin-right: 5px" :class="item.iconClass"></i>
+                <i style="color: #409eff;margin-right: 5px;font-size: 18px;" :class="item.iconClass" ></i>
                 <span>{{item.name}}</span>
               </template>
               <el-menu-item :index="child.path" v-for="(child,indexj) in item.children" :key="indexj">
+                <i style="color: #409eff;margin-right: 5px;font-size: 16px;" :class="child.iconClass" ></i>
                 {{child.name}}
               </el-menu-item>
             </el-submenu>
