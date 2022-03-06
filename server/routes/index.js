@@ -45,6 +45,8 @@ const employee = require('./employee');
 const base = require('./base');
 // 系统管理
 const sys = require('./system/');
+// 薪资管理
+const salary = require('./salary/');
 
 router.use('/', login);
 router.use('/system/', system);
@@ -52,5 +54,6 @@ router.use('/person/', person);
 router.use('/employee/', employee);
 router.use('/base/', base);
 router.use('/sys/', sys);
+router.use('/salary/', salary);
 
 module.exports = router;
