@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../mysql/mysql.js');
+const db=require('../../mysql/mysql.js');
 const date = require("silly-datetime");
 
 /**
  * @api {get} /employee/ 查询员工
- * @apiGroup 员工信息
+ * @apiGroup 人事管理-员工信息
  * @apiDescription 获取员工信息
  * @apiHeader {String} authorization token
  * @apiSuccess {number} code 返回200为成功
@@ -134,7 +134,7 @@ router.get('/',function(req,res,next){
 
 /**
  * @api {get} /employee/getMaxId 获取待添加员工id
- * @apiGroup 员工信息
+ * @apiGroup 人事管理-员工信息
  * @apiDescription 获取待添加员工id
  * @apiHeader {String} authorization token
  * @apiSuccess {number} code 返回200为成功
@@ -163,7 +163,7 @@ router.get('/getMaxId',function(req,res,next){
 
 /**
  * @api {post} /employee/ 添加员工
- * @apiGroup 员工信息
+ * @apiGroup 人事管理-员工信息
  * @apiDescription 添加新员工
  * @apiHeader {String} authorization token
  * @apiBody {string} name 姓名
@@ -274,7 +274,7 @@ router.post('/',function(req,res,next){
 
 /**
  * @api {put} /employee/ 修改员工信息
- * @apiGroup 员工信息
+ * @apiGroup 人事管理-员工信息
  * @apiDescription 修改员工信息
  * @apiHeader {String} authorization token
  * @apiBody {number} id id
@@ -388,7 +388,7 @@ router.put('/',function(req,res,next){
 
 /**
  * @api {delete} /employee/ 删除员工
- * @apiGroup 员工信息
+ * @apiGroup 人事管理-员工信息
  * @apiDescription 删除员工
  * @apiHeader {String} authorization token
  * @apiSuccess {number} code 返回200为成功
