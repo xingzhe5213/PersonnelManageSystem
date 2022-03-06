@@ -98,7 +98,7 @@
             </el-col>
             <el-col :span="5" style="margin-left: 30px;">
               职&emsp;&emsp;位：
-              <el-select v-model="searchValue.posId" placeholder="职位" size="mini" style="width: 140px;">
+              <el-select v-model="searchValue.positionId" placeholder="职位" size="mini" style="width: 140px;">
                 <el-option
                     v-for="item in positions"
                     :disabled="!item.enabled"
@@ -584,7 +584,7 @@ export default {
         politicId: null,
         nationId: null,
         jobLevelId: null,
-        posId: null,
+        positionId: null,
         engageForm: null,
         departmentId: null,
         beginDateScope: null
@@ -683,7 +683,7 @@ export default {
       this.searchValue.politicId= null;
       this.searchValue.nationId= null;
       this.searchValue.jobLevelId= null;
-      this.searchValue.posId= null;
+      this.searchValue.positionId= null;
       this.searchValue.engageForm= null;
       this.searchValue.departmentId= null;
       this.searchValue.beginDateScope= null;
@@ -884,8 +884,8 @@ export default {
         if (this.searchValue.jobLevelId) {
           url += '&jobLevelId=' + this.searchValue.jobLevelId;
         }
-        if (this.searchValue.posId) {
-          url += '&posId=' + this.searchValue.posId;
+        if (this.searchValue.positionId) {
+          url += '&positionId=' + this.searchValue.positionId;
         }
         if (this.searchValue.engageForm) {
           url += '&engageForm=' + this.searchValue.engageForm;
