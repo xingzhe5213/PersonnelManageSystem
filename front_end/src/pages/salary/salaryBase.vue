@@ -267,7 +267,7 @@ export default {
                 this.initSalaries();
               }else if(res.code==201){
                 this.$message({
-                  message: '修改失败，请检查名称是否重复！',
+                  message: '添加失败，请检查名称是否重复！',
                   type: 'error'
                 });
               }
