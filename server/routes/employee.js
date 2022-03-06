@@ -262,6 +262,7 @@ router.post('/',function(req,res,next){
 			beginDate, req.body.workState,req.body.workID,contractTerm,conversionTime,notWorkDate,
 			beginContract],function(info,fields) {
 		if(info){
+			dataList=null;
 			res.json({
 				code: 200,
 				message: "成功",
@@ -375,6 +376,7 @@ router.put('/',function(req,res,next){
 			beginDate, workState,req.body.workID,contractTerm,conversionTime,notWorkDate,
 			beginContract,req.body.id],function(info,fields) {
 		if(info){
+			dataList=null;
 			res.json({
 				code: 200,
 				message: "成功"
@@ -401,9 +403,9 @@ router.put('/',function(req,res,next){
  */
 
 router.delete('/',function(req,res,next){
-
 	db.query('DELETE FROM employee WHERE id=?', [req.query.id],function(info,fields) {
 		if(info){
+			dataList=null;
 			res.json({
 				code: 200,
 				message: "成功",
