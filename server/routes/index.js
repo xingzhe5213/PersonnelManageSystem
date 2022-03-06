@@ -39,8 +39,8 @@ const login = require('./login');
 const system = require('./system');
 // 个人信息
 const person = require('./person');
-// 员工信息
-const employee = require('./employee');
+// 人事管理
+const employee = require('./employee/');
 // 基础信息
 const base = require('./base');
 // 系统管理
