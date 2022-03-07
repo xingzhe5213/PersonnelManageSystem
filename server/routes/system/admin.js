@@ -173,6 +173,37 @@ router.put('/',function(req,res,next){
 
 
 /**
+ * @api {put} /sys/adm/leader/resetPasswd 重置账号密码
+ * @apiGroup 管理员管理
+ * @apiDescription 重置账号密码
+ * @apiHeader {String} authorization token
+ * @apiBody {String} id 管理员id
+ * @apiParamExample {json} Request-Example:
+ * {
+ *    id: 2,
+ * }
+ * @apiSuccess {number} code 返回200为成功
+ * @apiSuccess {string} message  响应状态
+ * @apiSuccessExample {json} 成功回调:
+ *  {
+ *      code: 200
+ *      message: "成功"
+ *  }
+ * @apiSampleRequest /sys/adm/leader/resetPasswd
+ * @apiVersion 1.0.0
+ */
+
+router.put('/resetPasswd',function(req,res,next){
+	db.query('UPDATE leader SET password=? WHERE id=?', ['E10ADC3949BA59ABBE56E057F20F883E',req.body.id],function(cou,fields) {
+		res.json({
+			code: 200,
+			message: "成功"
+		});
+	})
+});
+
+
+/**
  * @api {delete} /sys/adm/leader 删除管理员
  * @apiGroup 管理员管理
  * @apiDescription 删除管理员
