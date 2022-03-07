@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3123188 */
-  src: url('iconfont.woff2?t=1646401047742') format('woff2'),
-       url('iconfont.woff?t=1646401047742') format('woff'),
-       url('iconfont.ttf?t=1646401047742') format('truetype');
+  src: url('iconfont.woff2?t=1646629104126') format('woff2'),
+       url('iconfont.woff?t=1646629104126') format('woff'),
+       url('iconfont.ttf?t=1646629104126') format('truetype');
 }
 
 .iconfont {
@@ -13,8 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-yuangongtiaoxin:before {
-  content: "\e629";
+.icon-resetpassword:before {
+  content: "\e60a";
+}
+
+.icon-reset_password:before {
+  content: "\e728";
 }
 
 .icon-yuangongguanli:before {
@@ -27,10 +31,6 @@
 
 .icon-personnel-file:before {
   content: "\e604";
-}
-
-.icon-yuangongtiaogang:before {
-  content: "\e616";
 }
 
 .icon-permission:before {
