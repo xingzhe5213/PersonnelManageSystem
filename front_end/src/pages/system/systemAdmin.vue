@@ -10,8 +10,12 @@
       <el-card class="hr-card" v-for="(hr,index) in hrs" :key="index">
         <div slot="header" class="clearfix">
           <span>{{ hr.name }}</span>
-          <el-button style="float: right; padding: 3px 0;color: #e30007;" type="text"
-                     icon="el-icon-delete" @click="deleteHr(hr)"></el-button>
+          <span style="float: right; padding: 3px 0;">
+            <el-button v-if="hr.id!=hrId" style="padding: 3px 0;color: #409eff;" type="text"
+                       icon="iconfont icon-reset_password" @click="resetPasswd(hr)"></el-button>
+            <el-button style="padding: 3px 0;color: #e30007;font-size: 14px;" type="text"
+                       icon="el-icon-delete" @click="deleteHr(hr)"></el-button>
+          </span>
         </div>
         <div>
           <div class="img-container">
@@ -111,6 +115,7 @@ export default {
   name: "systemAdmin",
   data() {
     return {
+      hrId:JSON.parse(window.sessionStorage.getItem("user")).id,
       keywords: '',
       hrs: [],
       selectedRoles: [],
@@ -135,12 +140,12 @@ export default {
     this.initHrs();
   },
   methods: {
-    add(){
+    add() {
       this.$refs['empForm'].validate(valid => {
         if (valid) {
           console.log(this.admin)
           this.Post("/api/sys/adm/leader", this.admin).then(res => {
-            if (res.code==200) {
+            if (res.code == 200) {
               this.$message({
                 message: '添加成功！',
                 type: 'success'
@@ -153,7 +158,7 @@ export default {
                 address: "",
               };
               this.dialogVisible = false;
-            }else{
+            } else {
               this.$message({
                 message: '添加失败，请检查职位名称是否重复！',
                 type: 'error'
@@ -182,6 +187,27 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
+        });
+      });
+    },
+    resetPasswd(hr) {
+      this.$confirm('重置【' + hr.name + '】的登录密码, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.Put("/api/sys/adm/leader/resetPasswd",{id:hr.id}).then(res => {
+          if (res.code == 200) {
+            this.$message({
+              message: '密码重置成功！初始密码为：123456',
+              type: 'success'
+            });
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消重置密码'
         });
       });
     },
@@ -245,8 +271,8 @@ export default {
     },
     enabledChange(hr) {
       this.Put("/api/sys/adm/leader", {
-        id:hr.id,
-        enabled:hr.enabled
+        id: hr.id,
+        enabled: hr.enabled
       }).then(res => {
         if (res.code == 200) {
           this.$message({
@@ -273,7 +299,7 @@ export default {
   },
   watch: {
     'dialogVisible': function (val) {
-      if(val==false){
+      if (val == false) {
         this.$nextTick(() => {
           this.$refs['empForm'].clearValidate()
         })
@@ -314,5 +340,8 @@ export default {
 .hr-card {
   width: 350px;
   margin: 20px;
+}
+.icon-reset_password{
+  font-size: 14px;
 }
 </style>
