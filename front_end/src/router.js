@@ -33,8 +33,10 @@ export default new Router({
             ]
         },
         {
-            path: '*',
-            redirect: '/home'
+            path: "*",
+            name: '404',
+            component: () =>
+                import ("./pages/404.vue")
         }
     ]
 })
