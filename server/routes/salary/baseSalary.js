@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /salary/baseSalary 基本工资
@@ -20,24 +20,24 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-let count=0;
-let dataList=null;
-router.get('/',function(req,res,next){
-	let page=req.query.page;
-	let size=req.query.size;
-	if(page==1||dataList==null){
-		db.query("SELECT count(*) as count FROM salary", [],function(cou,fields) {
-			count=cou[0].count;
-			db.query("SELECT * FROM salary",[],function(info,fields) {
-				if(info){
-					dataList=info;
+let count = 0;
+let dataList = null;
+router.get('/', function (req, res, next) {
+	let page = req.query.page;
+	let size = req.query.size;
+	if (page == 1 || dataList == null) {
+		db.query("SELECT count(*) as count FROM salary", [], function (cou, fields) {
+			count = cou[0].count;
+			db.query("SELECT * FROM salary", [], function (info, fields) {
+				if (info) {
+					dataList = info;
 					res.json({
 						code: 200,
 						message: "成功",
 						data: {
-							list: dataList.slice((page-1)*size,page*size),
+							list: dataList.slice((page - 1) * size, page * size),
 							page: Number(page),
-							pages: count/size,
+							pages: count / size,
 							size: Number(size),
 							total: count
 						}
@@ -45,14 +45,14 @@ router.get('/',function(req,res,next){
 				}
 			})
 		})
-	}else{
+	} else {
 		res.json({
 			code: 200,
 			message: "成功",
 			data: {
-				list: dataList.slice((page-1)*size,page*size),
+				list: dataList.slice((page - 1) * size, page * size),
 				page: Number(page),
-				pages: count/size,
+				pages: count / size,
 				size: Number(size),
 				total: count
 			}
@@ -100,22 +100,22 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM salary WHERE name =?', [req.body.name],function(cou,fields) {
+router.post('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM salary WHERE name =?', [req.body.name], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
+		if (count == 0) {
 			db.query('INSERT INTO salary(name,basicSalary,lunchSalary,trafficSalary,pensionBase,pensionPer,medicalBase,medicalPer,accumulationFundBase,accumulationFundPer) VALUES (?,?,?,?,?,?,?,?,?,?)',
-				[req.body.name,req.body.basicSalary,req.body.lunchSalary,req.body.trafficSalary,req.body.pensionBase,req.body.pensionPer,
-					req.body.medicalBase,req.body.medicalPer,req.body.accumulationFundBase,req.body.accumulationFundPer],function(info,fields) {
-				if(info){
-					dataList=null;
-					res.json({
-						code: 200,
-						message: "成功"
-					});
-				}
-			})
-		}else{
+				[req.body.name, req.body.basicSalary, req.body.lunchSalary, req.body.trafficSalary, req.body.pensionBase, req.body.pensionPer,
+					req.body.medicalBase, req.body.medicalPer, req.body.accumulationFundBase, req.body.accumulationFundPer], function (info, fields) {
+					if (info) {
+						dataList = null;
+						res.json({
+							code: 200,
+							message: "成功"
+						});
+					}
+				})
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -166,22 +166,22 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM salary WHERE name =? and id<>?', [req.body.name,req.body.id],function(cou,fields) {
+router.put('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM salary WHERE name =? and id<>?', [req.body.name, req.body.id], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
+		if (count == 0) {
 			db.query('UPDATE salary SET name=?,basicSalary=?,lunchSalary=?,trafficSalary=?,pensionBase=?,pensionPer=?,medicalBase=?,medicalPer=?,accumulationFundBase=?,accumulationFundPer=? WHERE id=?',
-				[req.body.name,req.body.basicSalary,req.body.lunchSalary,req.body.trafficSalary,req.body.pensionBase,req.body.pensionPer,
-					req.body.medicalBase,req.body.medicalPer,req.body.accumulationFundBase,req.body.accumulationFundPer,req.body.id],function(info,fields) {
-				if(info){
-					dataList=null;
-					res.json({
-						code: 200,
-						message: "成功"
-					});
-				}
-			})
-		}else{
+				[req.body.name, req.body.basicSalary, req.body.lunchSalary, req.body.trafficSalary, req.body.pensionBase, req.body.pensionPer,
+					req.body.medicalBase, req.body.medicalPer, req.body.accumulationFundBase, req.body.accumulationFundPer, req.body.id], function (info, fields) {
+					if (info) {
+						dataList = null;
+						res.json({
+							code: 200,
+							message: "成功"
+						});
+					}
+				})
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -212,20 +212,20 @@ router.put('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM employee WHERE salaryId=?', [req.query.id],function(cou,fields) {
+router.delete('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM employee WHERE salaryId=?', [req.query.id], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('DELETE FROM salary WHERE id=?', [req.query.id],function(info,fields) {
-				if(info){
-					dataList=null;
+		if (count == 0) {
+			db.query('DELETE FROM salary WHERE id=?', [req.query.id], function (info, fields) {
+				if (info) {
+					dataList = null;
 					res.json({
 						code: 200,
 						message: "成功"
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"

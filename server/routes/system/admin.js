@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /sys/adm/leader 获取管理员信息
@@ -20,24 +20,24 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-router.get('/',function(req,res,next){
+router.get('/', function (req, res, next) {
 	let sql = "SELECT * FROM leader WHERE name like '%" + req.query.keyword + "%';";
-	db.query(sql, [],function(info,fields) {
-		let data=[];
-		for (let i=0;i<info.length;i++){
-			data[i]=info[i];
-			data[i].password=null;
+	db.query(sql, [], function (info, fields) {
+		let data = [];
+		for (let i = 0; i < info.length; i++) {
+			data[i] = info[i];
+			data[i].password = null;
 			db.query('SELECT role.id, role.name, role.nameZH FROM role LEFT JOIN leader_role ON leader_role.roleid = role.id WHERE leader_role.leaderid=? ORDER BY role.id ASC',
-				[data[i].id],function(info_roles,fields) {
-				data[i].roles=info_roles;
-				if(i+1==info.length){
-					res.json({
-						code: 200,
-						message: "成功",
-						data: data
-					});
-				}
-			})
+				[data[i].id], function (info_roles, fields) {
+					data[i].roles = info_roles;
+					if (i + 1 == info.length) {
+						res.json({
+							code: 200,
+							message: "成功",
+							data: data
+						});
+					}
+				})
 
 		}
 
@@ -68,18 +68,18 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/roles',function(req,res,next){
-	let sql="INSERT INTO leader_role(leaderid,roleid) VALUES ";
-	for(let i = 0; i < req.body.rids.length; i++){
-		if(i+1==req.body.rids.length){
-			sql=sql+"('"+req.body.id+"','"+req.body.rids[i]+"')"
-		}else{
-			sql=sql+"('"+req.body.id+"','"+req.body.rids[i]+"'),"
+router.put('/roles', function (req, res, next) {
+	let sql = "INSERT INTO leader_role(leaderid,roleid) VALUES ";
+	for (let i = 0; i < req.body.rids.length; i++) {
+		if (i + 1 == req.body.rids.length) {
+			sql = sql + "('" + req.body.id + "','" + req.body.rids[i] + "')"
+		} else {
+			sql = sql + "('" + req.body.id + "','" + req.body.rids[i] + "'),"
 		}
 	}
-	db.query('DELETE FROM leader_role WHERE leaderid=?', [req.body.id],function(info,fields) {
-		if(info){
-			db.query(sql, [],function(info,fields) {
+	db.query('DELETE FROM leader_role WHERE leaderid=?', [req.body.id], function (info, fields) {
+		if (info) {
+			db.query(sql, [], function (info, fields) {
 				res.json({
 					code: 200,
 					message: "成功",
@@ -117,19 +117,19 @@ router.put('/roles',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM leader WHERE username =?', [req.body.username],function(cou,fields) {
+router.post('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM leader WHERE username =?', [req.body.username], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('insert into leader (name,username,phone,address) values (?,?,?,?);', [req.body.name,req.body.username,req.body.phone,req.body.address],function(info,fields) {
-				if(info){
+		if (count == 0) {
+			db.query('insert into leader (name,username,phone,address) values (?,?,?,?);', [req.body.name, req.body.username, req.body.phone, req.body.address], function (info, fields) {
+				if (info) {
 					res.json({
 						code: 200,
 						message: "成功",
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -162,8 +162,8 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
-	db.query('UPDATE leader SET enabled=? WHERE id=?', [req.body.enabled,req.body.id],function(cou,fields) {
+router.put('/', function (req, res, next) {
+	db.query('UPDATE leader SET enabled=? WHERE id=?', [req.body.enabled, req.body.id], function (cou, fields) {
 		res.json({
 			code: 200,
 			message: "成功"
@@ -193,8 +193,8 @@ router.put('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/resetPasswd',function(req,res,next){
-	db.query('UPDATE leader SET password=? WHERE id=?', ['E10ADC3949BA59ABBE56E057F20F883E',req.body.id],function(cou,fields) {
+router.put('/resetPasswd', function (req, res, next) {
+	db.query('UPDATE leader SET password=? WHERE id=?', ['E10ADC3949BA59ABBE56E057F20F883E', req.body.id], function (cou, fields) {
 		res.json({
 			code: 200,
 			message: "成功"
@@ -224,9 +224,9 @@ router.put('/resetPasswd',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('DELETE FROM leader WHERE id=?', [req.query.id],function(info,fields) {
-		if(info){
+router.delete('/', function (req, res, next) {
+	db.query('DELETE FROM leader WHERE id=?', [req.query.id], function (info, fields) {
+		if (info) {
 			res.json({
 				code: 200,
 				message: "成功"

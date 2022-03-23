@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /sys/base/permiss/roles 角色列表
@@ -20,8 +20,8 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-router.get('/roles',function(req,res,next){
-	db.query('SELECT * FROM role', [],function(info,fields) {
+router.get('/roles', function (req, res, next) {
+	db.query('SELECT * FROM role', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -49,14 +49,14 @@ router.get('/roles',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/menus',function(req,res,next){
-	db.query('SELECT * FROM menu', [],function(info,fields) {
+router.get('/menus', function (req, res, next) {
+	db.query('SELECT * FROM menu', [], function (info, fields) {
 		let result = [], temp = {}, len = info.length
-		for(let i = 0; i < len; i++){
+		for (let i = 0; i < len; i++) {
 			// 以id作为索引存储元素，可以无需遍历直接快速定位元素
 			temp[info[i]['id']] = info[i]
 		}
-		for(let j = 0; j < len; j++){
+		for (let j = 0; j < len; j++) {
 			let list = info[j]
 			// 临时变量里面的当前元素的父元素，即pid的值，与找对应id值
 			let sonList = temp[list['parentId']]
@@ -102,10 +102,10 @@ router.get('/menus',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/',function(req,res,next){
-	db.query('SELECT mid FROM menu_role WHERE roleid=?', [req.query.rid],function(info,fields) {
+router.get('/', function (req, res, next) {
+	db.query('SELECT mid FROM menu_role WHERE roleid=?', [req.query.rid], function (info, fields) {
 		let result = [];
-		for(let i = 0; i < info.length; i++){
+		for (let i = 0; i < info.length; i++) {
 			// 以id作为索引存储元素，可以无需遍历直接快速定位元素
 			result[i] = info[i].mid;
 		}
@@ -141,19 +141,19 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM role WHERE name =?', [req.body.name],function(cou,fields) {
+router.post('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM role WHERE name =?', [req.body.name], function (cou, fields) {
 		let count = cou[0].count;
-		db.query('SELECT count(*) as count FROM role WHERE nameZH =?', [req.body.nameZH],function(cou,fields) {
+		db.query('SELECT count(*) as count FROM role WHERE nameZH =?', [req.body.nameZH], function (cou, fields) {
 			let count1 = cou[0].count;
-			if(count==0&&count1==0){
-				db.query('INSERT INTO role(name,nameZH) VALUES (?,?)', [req.body.name,req.body.nameZH],function(info,fields) {
+			if (count == 0 && count1 == 0) {
+				db.query('INSERT INTO role(name,nameZH) VALUES (?,?)', [req.body.name, req.body.nameZH], function (info, fields) {
 					res.json({
 						code: 200,
 						message: "成功",
 					});
 				})
-			}else{
+			} else {
 				res.json({
 					code: 201,
 					message: "成功"
@@ -187,24 +187,24 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
-	let sql="INSERT INTO menu_role(roleid,mid) VALUES ";
-	for(let i = 0; i < req.body.mids.length; i++){
-		if(i+1==req.body.mids.length){
-			sql=sql+"('"+req.body.id+"','"+req.body.mids[i]+"')"
-		}else{
-			sql=sql+"('"+req.body.id+"','"+req.body.mids[i]+"'),"
+router.put('/', function (req, res, next) {
+	let sql = "INSERT INTO menu_role(roleid,mid) VALUES ";
+	for (let i = 0; i < req.body.mids.length; i++) {
+		if (i + 1 == req.body.mids.length) {
+			sql = sql + "('" + req.body.id + "','" + req.body.mids[i] + "')"
+		} else {
+			sql = sql + "('" + req.body.id + "','" + req.body.mids[i] + "'),"
 		}
 	}
-	db.query('DELETE FROM menu_role WHERE roleid=?', [req.body.id],function(info,fields) {
-		if(info && req.body.mids.length>0){
-			db.query(sql, [],function(info,fields) {
+	db.query('DELETE FROM menu_role WHERE roleid=?', [req.body.id], function (info, fields) {
+		if (info && req.body.mids.length > 0) {
+			db.query(sql, [], function (info, fields) {
 				res.json({
 					code: 200,
 					message: "成功",
 				});
 			})
-		}else if(req.body.mids.length==0){
+		} else if (req.body.mids.length == 0) {
 			res.json({
 				code: 200,
 				message: "成功",
@@ -235,8 +235,8 @@ router.put('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('DELETE role,leader_role,menu_role FROM role LEFT JOIN leader_role ON role.id = leader_role.roleid LEFT JOIN menu_role ON role.id = menu_role.roleid WHERE role.id=?', [req.query.id],function(info,fields) {
+router.delete('/', function (req, res, next) {
+	db.query('DELETE role,leader_role,menu_role FROM role LEFT JOIN leader_role ON role.id = leader_role.roleid LEFT JOIN menu_role ON role.id = menu_role.roleid WHERE role.id=?', [req.query.id], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",

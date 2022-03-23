@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const svgCaptcha = require('svg-captcha');
 const verToken = require('../utils/token');
-const db=require('../mysql/mysql.js');
+const db = require('../mysql/mysql.js');
 
 let verifyCode = "";
 
@@ -17,24 +17,24 @@ let verifyCode = "";
  * @apiVersion 1.0.0
  */
 
-router.get('/verifyCode',function(req,res,next){
-  const captcha = svgCaptcha.create({
-    color: true,     // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有
-    inverse:false,   // 反转颜色
-    background: '#eee',    // 验证码图片背景颜色
-    width:100,   //  宽度
-    height:40,   // 高度
-    fontSize:48, // 字体大小
-    size:4,      // 验证码的长度
-    noise:5,     // 干扰线条的数量
-    ignoreChars: '0oO1ilI' // 验证码字符中排除 0oO1ilI 等较难识别的
-  });
-  verifyCode = captcha.text.toLowerCase()
-  res.json({
-    code:200,
-    message:"成功",
-    data:captcha.data
-  });
+router.get('/verifyCode', function (req, res, next) {
+	const captcha = svgCaptcha.create({
+		color: true,     // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有
+		inverse: false,   // 反转颜色
+		background: '#eee',    // 验证码图片背景颜色
+		width: 100,   //  宽度
+		height: 40,   // 高度
+		fontSize: 48, // 字体大小
+		size: 4,      // 验证码的长度
+		noise: 5,     // 干扰线条的数量
+		ignoreChars: '0oO1ilI' // 验证码字符中排除 0oO1ilI 等较难识别的
+	});
+	verifyCode = captcha.text.toLowerCase()
+	res.json({
+		code: 200,
+		message: "成功",
+		data: captcha.data
+	});
 });
 
 
@@ -59,47 +59,47 @@ router.get('/verifyCode',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/login',function(req,res,next){
-  if(req.body.code==verifyCode){
-    db.query('select * from leader where username=?', [req.body.username],function(info,fields) {
-      if (info=='') {
-        res.json({
-          code: -1,
-          message: "用户名不存在！"
-        });
-      } else if (req.body.password == info[0].password&&info[0].enabled==1) {
-        let data=info[0];
-        data.password=null;
-        db.query('SELECT role.id, role.name, role.nameZH FROM role LEFT JOIN leader_role ON leader_role.roleid = role.id WHERE leader_role.leaderid=? ORDER BY role.id ASC',
-            [info[0].id],function(info_roles,fields) {
-          data.roles=info_roles;
-          verToken.setToken(info[0].username,info[0].id).then((token)=> {
-            res.json({
-              code: 200,
-              message: "登陆成功",
-              token: token,
-              data: data
-            });
-          })
-        })
-      }else if(req.body.password == info[0].password&&info[0].enabled==0){
-        res.json({
-          code: 201,
-          message: "账号已禁用！"
-        });
-      } else {
-        res.json({
-          code: -1,
-          message: "密码错误！"
-        });
-      }
-    })
-  }else{
-    res.json({
-      code:-1,
-      message:"验证码错误"
-    });
-  }
+router.post('/login', function (req, res, next) {
+	if (req.body.code == verifyCode) {
+		db.query('select * from leader where username=?', [req.body.username], function (info, fields) {
+			if (info == '') {
+				res.json({
+					code: -1,
+					message: "用户名不存在！"
+				});
+			} else if (req.body.password == info[0].password && info[0].enabled == 1) {
+				let data = info[0];
+				data.password = null;
+				db.query('SELECT role.id, role.name, role.nameZH FROM role LEFT JOIN leader_role ON leader_role.roleid = role.id WHERE leader_role.leaderid=? ORDER BY role.id ASC',
+					[info[0].id], function (info_roles, fields) {
+						data.roles = info_roles;
+						verToken.setToken(info[0].username, info[0].id).then((token) => {
+							res.json({
+								code: 200,
+								message: "登陆成功",
+								token: token,
+								data: data
+							});
+						})
+					})
+			} else if (req.body.password == info[0].password && info[0].enabled == 0) {
+				res.json({
+					code: 201,
+					message: "账号已禁用！"
+				});
+			} else {
+				res.json({
+					code: -1,
+					message: "密码错误！"
+				});
+			}
+		})
+	} else {
+		res.json({
+			code: -1,
+			message: "验证码错误"
+		});
+	}
 });
 
 module.exports = router;

@@ -4,15 +4,15 @@ const expressJwt = require('express-jwt');
 const verToken = require('../utils/token');
 
 // 解析token获取用户信息
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
 	let token = req.headers['Authorization'];
-	if(token == undefined){
+	if (token == undefined) {
 		return next();
-	}else{
-		verToken.verToken(token).then((data)=> {
+	} else {
+		verToken.verToken(token).then((data) => {
 			req.data = data;
 			return next();
-		}).catch((error)=>{
+		}).catch((error) => {
 			return next();
 		})
 	}
@@ -23,7 +23,7 @@ router.use(expressJwt({
 	secret: verToken.signKey,
 	algorithms: ['HS256']
 }).unless({
-	path: ['/api/verifyCode','/api/login','/api/person/face'] //除了登录和获取验证码，其他的URL都需要验证
+	path: ['/api/verifyCode', '/api/login', '/api/person/face'] //除了登录和获取验证码，其他的URL都需要验证
 }));
 
 //当token失效返回提示信息

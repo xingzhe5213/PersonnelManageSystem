@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /sys/base/department 获取部门列表
@@ -20,14 +20,14 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-router.get('/',function(req,res,next){
-	db.query('SELECT * FROM department', [],function(info,fields) {
+router.get('/', function (req, res, next) {
+	db.query('SELECT * FROM department', [], function (info, fields) {
 		let result = [], temp = {}, len = info.length
-		for(let i = 0; i < len; i++){
+		for (let i = 0; i < len; i++) {
 			// 以id作为索引存储元素，可以无需遍历直接快速定位元素
 			temp[info[i]['id']] = info[i]
 		}
-		for(let j = 0; j < len; j++){
+		for (let j = 0; j < len; j++) {
 			let list = info[j]
 			list['children'] = []
 			// 临时变量里面的当前元素的父元素，即pid的值，与找对应id值
@@ -81,25 +81,25 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM department WHERE name =?', [req.body.name],function(cou,fields) {
+router.post('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM department WHERE name =?', [req.body.name], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('INSERT INTO department(name,parentid) VALUES (?,?)', [req.body.name,req.body.parentid],function(info,fields) {
-				if(info){
-					db.query('select * from department where name=?', [req.body.name],function(data,fields) {
-						if(data){
+		if (count == 0) {
+			db.query('INSERT INTO department(name,parentid) VALUES (?,?)', [req.body.name, req.body.parentid], function (info, fields) {
+				if (info) {
+					db.query('select * from department where name=?', [req.body.name], function (data, fields) {
+						if (data) {
 							data[0]['children'] = []
 							res.json({
 								code: 200,
 								message: "成功",
-								data:data
+								data: data
 							});
 						}
 					})
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -130,19 +130,19 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM employee WHERE departmentId =?', [req.query.id],function(cou,fields) {
+router.delete('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM employee WHERE departmentId =?', [req.query.id], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('DELETE FROM department WHERE id=?', [req.query.id],function(info,fields) {
-				if(info){
+		if (count == 0) {
+			db.query('DELETE FROM department WHERE id=?', [req.query.id], function (info, fields) {
+				if (info) {
 					res.json({
 						code: 200,
 						message: "成功"
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"

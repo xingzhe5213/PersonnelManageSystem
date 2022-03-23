@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 const date = require("silly-datetime");
 
 /**
@@ -21,12 +21,12 @@ const date = require("silly-datetime");
  * @apiVersion 1.0.0
  */
 
-let count=0;
-let dataList=null;
-router.get('/',function(req,res,next){
-	let page=req.query.page;
-	let size=req.query.size;
-	let sql="FROM " +
+let count = 0;
+let dataList = null;
+router.get('/', function (req, res, next) {
+	let page = req.query.page;
+	let size = req.query.size;
+	let sql = "FROM " +
 		"employee e, " +
 		"nation n, " +
 		"politicsstatus p, " +
@@ -35,8 +35,8 @@ router.get('/',function(req,res,next){
 		"position pos " +
 		"WHERE " +
 		"e.nationId = n.id AND e.politicId = p.id AND e.departmentId = d.id AND e.jobLevelId = j.id AND e.positionId = pos.id";
-	let sql1="SELECT count(*) as count ";
-	let sql2="SELECT " +
+	let sql1 = "SELECT count(*) as count ";
+	let sql2 = "SELECT " +
 		"e.id, " +
 		"e.name, " +
 		"e.gender, " +
@@ -69,46 +69,46 @@ router.get('/',function(req,res,next){
 		"j.name AS jobLevelName, " +
 		"pos.name AS positionName ";
 
-	if(req.query.name !=null && req.query.name!=''){
+	if (req.query.name != null && req.query.name != '') {
 		sql = sql + " and e.name like '%" + req.query.name + "%'";
 	}
-	if(req.query.politicId !=null){
+	if (req.query.politicId != null) {
 		sql = sql + " and e.politicId =" + req.query.politicId;
 	}
-	if(req.query.nationId !=null){
+	if (req.query.nationId != null) {
 		sql = sql + " and e.nationId =" + req.query.nationId;
 	}
-	if(req.query.departmentId !=null){
+	if (req.query.departmentId != null) {
 		sql = sql + " and e.departmentId =" + req.query.departmentId;
 	}
-	if(req.query.jobLevelId !=null){
+	if (req.query.jobLevelId != null) {
 		sql = sql + " and e.jobLevelId =" + req.query.jobLevelId;
 	}
-	if(req.query.engageForm !=null && req.query.engageForm!=''){
+	if (req.query.engageForm != null && req.query.engageForm != '') {
 		sql = sql + " and e.engageForm ='" + req.query.engageForm + "'";
 	}
-	if(req.query.positionId !=null){
+	if (req.query.positionId != null) {
 		sql = sql + " and e.positionId =" + req.query.positionId;
 	}
-	if(req.query.beginDateScope !=null){
+	if (req.query.beginDateScope != null) {
 		let str = req.query.beginDateScope.split(",");
 		sql = sql + " and e.beginDate between '" + str[0] + "' and '" + str[1] + "'";
 	}
 	sql = sql + " order by e.id desc";
 
-	if(page==1||dataList==null){
-		db.query(sql1+sql, [],function(cou,fields) {
-			count=cou[0].count;
-			db.query(sql2+sql,[],function(info,fields) {
-				if(info){
-					dataList=info;
+	if (page == 1 || dataList == null) {
+		db.query(sql1 + sql, [], function (cou, fields) {
+			count = cou[0].count;
+			db.query(sql2 + sql, [], function (info, fields) {
+				if (info) {
+					dataList = info;
 					res.json({
 						code: 200,
 						message: "成功",
 						data: {
-							list: dataList.slice((page-1)*size,page*size),
+							list: dataList.slice((page - 1) * size, page * size),
 							page: Number(page),
-							pages: count/size,
+							pages: count / size,
 							size: Number(size),
 							total: count
 						}
@@ -116,14 +116,14 @@ router.get('/',function(req,res,next){
 				}
 			})
 		})
-	}else{
+	} else {
 		res.json({
 			code: 200,
 			message: "成功",
 			data: {
-				list: dataList.slice((page-1)*size,page*size),
+				list: dataList.slice((page - 1) * size, page * size),
 				page: Number(page),
-				pages: count/size,
+				pages: count / size,
 				size: Number(size),
 				total: count
 			}
@@ -150,8 +150,8 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/getMaxId',function(req,res,next){
-	db.query('select max(workID) as maxWorkId from employee', [],function(info,fields) {
+router.get('/getMaxId', function (req, res, next) {
+	db.query('select max(workID) as maxWorkId from employee', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -232,44 +232,44 @@ router.get('/getMaxId',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
+router.post('/', function (req, res, next) {
 	let notWorkDate = req.body.notWorkDate;
 	let beginDate = req.body.beginDate;
 	let contractTerm = req.body.contractTerm;
 	let conversionTime = req.body.conversionTime;
 	let beginContract = req.body.beginContract;
 
-	if(notWorkDate==""){
+	if (notWorkDate == "") {
 		notWorkDate = null;
 	}
-	if(beginDate==""){
+	if (beginDate == "") {
 		beginDate = null;
 	}
-	if(contractTerm==""){
+	if (contractTerm == "") {
 		contractTerm = null;
 	}
-	if(conversionTime==""){
+	if (conversionTime == "") {
 		conversionTime = null;
 	}
-	if(beginContract==""){
+	if (beginContract == "") {
 		beginContract = null;
 	}
 
 	db.query('INSERT INTO employee(name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, positionId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-		[req.body.name,req.body.gender,req.body.birthday,req.body.idCard,req.body.wedlock,req.body.nationId,
-			req.body.nativePlace,req.body.politicId,req.body.email,req.body.phone,req.body.address,req.body.departmentId,
-			req.body.jobLevelId,req.body.positionId,req.body.engageForm,req.body.tiptopDegree,req.body.specialty,req.body.school,
-			beginDate, req.body.workState,req.body.workID,contractTerm,conversionTime,notWorkDate,
-			beginContract],function(info,fields) {
-		if(info){
-			dataList=null;
-			res.json({
-				code: 200,
-				message: "成功",
-				data: req.body.workID
-			});
-		}
-	})
+		[req.body.name, req.body.gender, req.body.birthday, req.body.idCard, req.body.wedlock, req.body.nationId,
+			req.body.nativePlace, req.body.politicId, req.body.email, req.body.phone, req.body.address, req.body.departmentId,
+			req.body.jobLevelId, req.body.positionId, req.body.engageForm, req.body.tiptopDegree, req.body.specialty, req.body.school,
+			beginDate, req.body.workState, req.body.workID, contractTerm, conversionTime, notWorkDate,
+			beginContract], function (info, fields) {
+			if (info) {
+				dataList = null;
+				res.json({
+					code: 200,
+					message: "成功",
+					data: req.body.workID
+				});
+			}
+		})
 });
 
 /**
@@ -343,7 +343,7 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
+router.put('/', function (req, res, next) {
 	let notWorkDate = req.body.notWorkDate;
 	let beginDate = req.body.beginDate;
 	let workState = req.body.workState;
@@ -351,39 +351,39 @@ router.put('/',function(req,res,next){
 	let conversionTime = req.body.conversionTime;
 	let beginContract = req.body.beginContract;
 
-	if(workState=="离职" && notWorkDate==null){
-		notWorkDate = date.format(new Date(),'YYYY-MM-DD');
-	}else if(workState=="在职" && notWorkDate!=null && beginDate!=null){
+	if (workState == "离职" && notWorkDate == null) {
+		notWorkDate = date.format(new Date(), 'YYYY-MM-DD');
+	} else if (workState == "在职" && notWorkDate != null && beginDate != null) {
 		notWorkDate = null;
-		beginDate = date.format(new Date(),'YYYY-MM-DD');
+		beginDate = date.format(new Date(), 'YYYY-MM-DD');
 	}
-	if(contractTerm==""){
+	if (contractTerm == "") {
 		contractTerm = null;
 	}
-	if(conversionTime==""){
+	if (conversionTime == "") {
 		conversionTime = null;
 	}
-	if(beginContract==""){
+	if (beginContract == "") {
 		beginContract = null;
 	}
 
 	db.query('UPDATE employee SET name=?,gender=?,birthday=?,idCard=?,wedlock=?,nationId=?,nativePlace=?,politicId=?,' +
 		'email=?,phone=?,address=?,departmentId=?,jobLevelId=?,positionId=?,engageForm=?,tiptopDegree=?,specialty=?,school=?,' +
 		'beginDate=?,workState=?,workID=?,contractTerm=?,conversionTime=?,notWorkDate=?,beginContract=? WHERE id=?',
-		[req.body.name,req.body.gender,req.body.birthday,req.body.idCard,req.body.wedlock,req.body.nationId,
-			req.body.nativePlace,req.body.politicId,req.body.email,req.body.phone,req.body.address,req.body.departmentId,
-			req.body.jobLevelId,req.body.positionId,req.body.engageForm,req.body.tiptopDegree,req.body.specialty,req.body.school,
-			beginDate, workState,req.body.workID,contractTerm,conversionTime,notWorkDate,
-			beginContract,req.body.id],function(info,fields) {
-		if(info){
-			dataList=null;
-			res.json({
-				code: 200,
-				message: "成功"
-			});
-		}
+		[req.body.name, req.body.gender, req.body.birthday, req.body.idCard, req.body.wedlock, req.body.nationId,
+			req.body.nativePlace, req.body.politicId, req.body.email, req.body.phone, req.body.address, req.body.departmentId,
+			req.body.jobLevelId, req.body.positionId, req.body.engageForm, req.body.tiptopDegree, req.body.specialty, req.body.school,
+			beginDate, workState, req.body.workID, contractTerm, conversionTime, notWorkDate,
+			beginContract, req.body.id], function (info, fields) {
+			if (info) {
+				dataList = null;
+				res.json({
+					code: 200,
+					message: "成功"
+				});
+			}
 
-	})
+		})
 });
 
 /**
@@ -402,10 +402,10 @@ router.put('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('DELETE FROM employee WHERE id=?', [req.query.id],function(info,fields) {
-		if(info){
-			dataList=null;
+router.delete('/', function (req, res, next) {
+	db.query('DELETE FROM employee WHERE id=?', [req.query.id], function (info, fields) {
+		if (info) {
+			dataList = null;
 			res.json({
 				code: 200,
 				message: "成功",

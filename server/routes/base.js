@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../mysql/mysql.js');
+const db = require('../mysql/mysql.js');
 
 /**
  * @api {get} /base/getNations 获取民族列表
@@ -20,8 +20,8 @@ const db=require('../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-router.get('/getNations',function(req,res,next){
-	db.query("SELECT * FROM nation", [],function(info,fields) {
+router.get('/getNations', function (req, res, next) {
+	db.query("SELECT * FROM nation", [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -49,8 +49,8 @@ router.get('/getNations',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/getJobLevels',function(req,res,next){
-	db.query('SELECT * FROM joblevel', [],function(info,fields) {
+router.get('/getJobLevels', function (req, res, next) {
+	db.query('SELECT * FROM joblevel', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -77,8 +77,8 @@ router.get('/getJobLevels',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/getPoliticsstatus',function(req,res,next){
-	db.query('SELECT * FROM politicsstatus', [],function(info,fields) {
+router.get('/getPoliticsstatus', function (req, res, next) {
+	db.query('SELECT * FROM politicsstatus', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -105,14 +105,14 @@ router.get('/getPoliticsstatus',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/getDepartments',function(req,res,next){
-	db.query('SELECT * FROM department', [],function(info,fields) {
+router.get('/getDepartments', function (req, res, next) {
+	db.query('SELECT * FROM department', [], function (info, fields) {
 		let result = [], temp = {}, len = info.length
-		for(let i = 0; i < len; i++){
+		for (let i = 0; i < len; i++) {
 			// 以id作为索引存储元素，可以无需遍历直接快速定位元素
 			temp[info[i]['id']] = info[i]
 		}
-		for(let j = 0; j < len; j++){
+		for (let j = 0; j < len; j++) {
 			let list = info[j]
 			// 临时变量里面的当前元素的父元素，即pid的值，与找对应id值
 			let sonList = temp[list['parentid']]
@@ -157,8 +157,8 @@ router.get('/getDepartments',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/getPositions',function(req,res,next){
-	db.query('SELECT * FROM position', [],function(info,fields) {
+router.get('/getPositions', function (req, res, next) {
+	db.query('SELECT * FROM position', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",

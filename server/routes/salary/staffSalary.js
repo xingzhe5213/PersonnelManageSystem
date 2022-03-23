@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /salary/staffSalary 员工基本工资
@@ -20,12 +20,12 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-let count=0;
-let dataList=null;
-router.get('/',function(req,res,next){
-	let page=req.query.page;
-	let size=req.query.size;
-	let sql="SELECT " +
+let count = 0;
+let dataList = null;
+router.get('/', function (req, res, next) {
+	let page = req.query.page;
+	let size = req.query.size;
+	let sql = "SELECT " +
 		"e.id, " +
 		"e.name, " +
 		"e.email, " +
@@ -50,19 +50,19 @@ router.get('/',function(req,res,next){
 		"LEFT JOIN salary s " +
 		"ON e.salaryId = s.id";
 
-	if(page==1||dataList==null){
-		db.query("SELECT count(*) as count FROM employee e LEFT JOIN department d ON e.departmentId = d.id LEFT JOIN salary s ON e.salaryId = s.id", [],function(cou,fields) {
-			count=cou[0].count;
-			db.query(sql,[],function(info,fields) {
-				if(info){
-					dataList=info;
+	if (page == 1 || dataList == null) {
+		db.query("SELECT count(*) as count FROM employee e LEFT JOIN department d ON e.departmentId = d.id LEFT JOIN salary s ON e.salaryId = s.id", [], function (cou, fields) {
+			count = cou[0].count;
+			db.query(sql, [], function (info, fields) {
+				if (info) {
+					dataList = info;
 					res.json({
 						code: 200,
 						message: "成功",
 						data: {
-							list: dataList.slice((page-1)*size,page*size),
+							list: dataList.slice((page - 1) * size, page * size),
 							page: Number(page),
-							pages: count/size,
+							pages: count / size,
 							size: Number(size),
 							total: count
 						}
@@ -70,14 +70,14 @@ router.get('/',function(req,res,next){
 				}
 			})
 		})
-	}else{
+	} else {
 		res.json({
 			code: 200,
 			message: "成功",
 			data: {
-				list: dataList.slice((page-1)*size,page*size),
+				list: dataList.slice((page - 1) * size, page * size),
 				page: Number(page),
-				pages: count/size,
+				pages: count / size,
 				size: Number(size),
 				total: count
 			}
@@ -104,9 +104,9 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.get('/salaries',function(req,res,next){
-	db.query("SELECT * FROM salary",[],function(info,fields) {
-		if(info){
+router.get('/salaries', function (req, res, next) {
+	db.query("SELECT * FROM salary", [], function (info, fields) {
+		if (info) {
 			res.json({
 				code: 200,
 				message: "成功",
@@ -140,9 +140,9 @@ router.get('/salaries',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
-	db.query("UPDATE employee SET salaryId=? WHERE id=?",[req.body.sid,req.body.eid],function(info,fields) {
-		if(info){
+router.put('/', function (req, res, next) {
+	db.query("UPDATE employee SET salaryId=? WHERE id=?", [req.body.sid, req.body.eid], function (info, fields) {
+		if (info) {
 			res.json({
 				code: 200,
 				message: "成功"

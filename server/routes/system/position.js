@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db=require('../../mysql/mysql.js');
+const db = require('../../mysql/mysql.js');
 
 /**
  * @api {get} /sys/base/position 获取职位列表
@@ -20,8 +20,8 @@ const db=require('../../mysql/mysql.js');
  * @apiVersion 1.0.0
  */
 
-router.get('/',function(req,res,next){
-	db.query('SELECT * FROM position', [],function(info,fields) {
+router.get('/', function (req, res, next) {
+	db.query('SELECT * FROM position', [], function (info, fields) {
 		res.json({
 			code: 200,
 			message: "成功",
@@ -52,19 +52,19 @@ router.get('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.post('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM position WHERE name =?', [req.body.name],function(cou,fields) {
+router.post('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM position WHERE name =?', [req.body.name], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('insert into `position` (name) values (?);', [req.body.name],function(info,fields) {
-				if(info){
+		if (count == 0) {
+			db.query('insert into `position` (name) values (?);', [req.body.name], function (info, fields) {
+				if (info) {
 					res.json({
 						code: 200,
 						message: "成功",
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -99,19 +99,19 @@ router.post('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.put('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM position WHERE name =? and id<>?', [req.body.name,req.body.id],function(cou,fields) {
+router.put('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM position WHERE name =? and id<>?', [req.body.name, req.body.id], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('UPDATE `position` SET name=?,enabled=? WHERE id=?', [req.body.name,req.body.enabled,req.body.id],function(info,fields) {
-				if(info){
+		if (count == 0) {
+			db.query('UPDATE `position` SET name=?,enabled=? WHERE id=?', [req.body.name, req.body.enabled, req.body.id], function (info, fields) {
+				if (info) {
 					res.json({
 						code: 200,
 						message: "成功",
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
@@ -142,19 +142,19 @@ router.put('/',function(req,res,next){
  * @apiVersion 1.0.0
  */
 
-router.delete('/',function(req,res,next){
-	db.query('SELECT count(*) as count FROM employee WHERE positionId=?', [req.query.id],function(cou,fields) {
+router.delete('/', function (req, res, next) {
+	db.query('SELECT count(*) as count FROM employee WHERE positionId=?', [req.query.id], function (cou, fields) {
 		let count = cou[0].count;
-		if(count==0){
-			db.query('DELETE FROM `position` WHERE id=?', [req.query.id],function(info,fields) {
-				if(info){
+		if (count == 0) {
+			db.query('DELETE FROM `position` WHERE id=?', [req.query.id], function (info, fields) {
+				if (info) {
 					res.json({
 						code: 200,
 						message: "成功"
 					});
 				}
 			})
-		}else{
+		} else {
 			res.json({
 				code: 201,
 				message: "成功"
