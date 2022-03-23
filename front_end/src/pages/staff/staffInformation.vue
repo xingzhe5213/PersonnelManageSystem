@@ -118,7 +118,9 @@
 
             <el-col :span="3">
               <el-button size="mini" @click="reset()">取消</el-button>
-              <el-button size="mini" icon="el-icon-search" type="primary" @click="currentChange(1)" style="margin-left: 20px;">搜索</el-button>
+              <el-button size="mini" icon="el-icon-search" type="primary" @click="currentChange(1)"
+                         style="margin-left: 20px;">搜索
+              </el-button>
             </el-col>
           </el-row>
         </div>
@@ -289,7 +291,7 @@
             align="center"
             label="合同期限">
           <template slot-scope="scope" v-if="scope.row.contractTerm">
-            <el-tag>{{scope.row.contractTerm}}</el-tag>
+            <el-tag>{{ scope.row.contractTerm }}</el-tag>
             年
           </template>
         </el-table-column>
@@ -633,7 +635,7 @@ export default {
         beginContract: null
       },
       defaultProps: {
-        value:'departmentId',
+        value: 'departmentId',
         children: 'children',
         label: 'name'
       },
@@ -679,15 +681,15 @@ export default {
       this.inputDepName = item.name;
       this.searchValue.departmentId = item.id;
     },
-    reset(){
-      this.searchValue.politicId= null;
-      this.searchValue.nationId= null;
-      this.searchValue.jobLevelId= null;
-      this.searchValue.positionId= null;
-      this.searchValue.engageForm= null;
-      this.searchValue.departmentId= null;
-      this.searchValue.beginDateScope= null;
-      this.keyword="";
+    reset() {
+      this.searchValue.politicId = null;
+      this.searchValue.nationId = null;
+      this.searchValue.jobLevelId = null;
+      this.searchValue.positionId = null;
+      this.searchValue.engageForm = null;
+      this.searchValue.departmentId = null;
+      this.searchValue.beginDateScope = null;
+      this.keyword = "";
       this.showAdvanceSearchView = false;
       this.currentChange(1);
     },
@@ -737,7 +739,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Delete("/api/employee/?id=" + data.id ).then(res => {
+        this.Delete("/api/employee/?id=" + data.id).then(res => {
           if (res) {
             this.$message({
               message: '删除成功！',
@@ -777,7 +779,7 @@ export default {
             this.Post("/api/employee/", this.emp).then(res => {
               if (res) {
                 this.$message({
-                  message: 'message: 添加成功，工号：'+res.data,
+                  message: 'message: 添加成功，工号：' + res.data,
                   type: 'success'
                 });
                 this.dialogVisible = false;
@@ -928,10 +930,12 @@ export default {
   transform: translateX(10px);
   opacity: 0;
 }
-.el-radio{
+
+.el-radio {
   margin-right: 12px;
 }
-.el-radio__label{
+
+.el-radio__label {
   padding-left: 5px;
 }
 </style>

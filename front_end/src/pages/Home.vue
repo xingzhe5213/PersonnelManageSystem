@@ -6,7 +6,7 @@
         <div>
           <el-dropdown class="userInfo" @command="commandHandler">
             <span class="el-dropdown-link">
-              {{user.name}}<i>
+              {{ user.name }}<i>
               <img v-if="user.userface" :src="user.userface" alt="">
               <img v-if="!user.userface" src="/face.png" alt="">
             </i>
@@ -21,14 +21,14 @@
       <el-container>
         <el-aside width="200px">
           <el-menu router unique-opened :style="{height: divHeight}">
-            <el-submenu :index="index+''" v-for="(item,index) in routes"  :key="index">
+            <el-submenu :index="index+''" v-for="(item,index) in routes" :key="index">
               <template slot="title">
-                <i style="color: #409eff;margin-right: 5px;font-size: 18px;" :class="item.iconClass" ></i>
-                <span>{{item.name}}</span>
+                <i style="color: #409eff;margin-right: 5px;font-size: 18px;" :class="item.iconClass"></i>
+                <span>{{ item.name }}</span>
               </template>
               <el-menu-item :index="child.path" v-for="(child,indexj) in item.children" :key="indexj">
-                <i style="color: #409eff;margin-right: 5px;font-size: 16px;" :class="child.iconClass" ></i>
-                {{child.name}}
+                <i style="color: #409eff;margin-right: 5px;font-size: 16px;" :class="child.iconClass"></i>
+                {{ child.name }}
               </el-menu-item>
             </el-submenu>
           </el-menu>
@@ -36,7 +36,7 @@
         <el-main :style="{height: divHeight}" style="flex-grow: 1;">
           <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$router.currentRoute.path!='/home'">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ this.$router.currentRoute.name }}</el-breadcrumb-item>
           </el-breadcrumb>
           <div class="homeWelcome" v-if="this.$router.currentRoute.path=='/home'">
             欢迎来到黄石市***公司人事管理系统！
@@ -51,10 +51,10 @@
 <script>
 export default {
   name: "Home",
-  data(){
-    return{
+  data() {
+    return {
       divHeight: null,
-      faceImg:"/face.png"
+      faceImg: "/face.png"
     }
   },
   computed: {
@@ -72,12 +72,12 @@ export default {
       })();
     };
     this.setHeight();
-    if(this.user.userface){
-      this.faceImg=this.user.userface;
+    if (this.user.userface) {
+      this.faceImg = this.user.userface;
     }
   },
   methods: {
-    setHeight(){
+    setHeight() {
       let windowHeight = window.innerHeight;
       this.divHeight = windowHeight - 61 + "px";
     },
@@ -98,7 +98,7 @@ export default {
             message: '已取消操作'
           });
         });
-      }else if (cmd == 'userinfo') {
+      } else if (cmd == 'userinfo') {
         this.$router.push('/perInfo');
       }
     }

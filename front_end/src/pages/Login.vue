@@ -34,11 +34,11 @@ export default {
   data() {
     return {
       loading: false,
-      svg:"",
+      svg: "",
       loginForm: {
         username: '',
         password: '',
-        code:''
+        code: ''
       },
       rules: {
         username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -47,13 +47,13 @@ export default {
       }
     }
   },
-  mounted(){
+  mounted() {
     this.updateVerifyCode();
   },
   methods: {
     updateVerifyCode() {
       this.Get('/api/verifyCode').then(res => {
-          this.svg = res.data;
+        this.svg = res.data;
       })
     },
     submitLogin() {
@@ -66,17 +66,17 @@ export default {
             code: this.loginForm.code
           }).then(res => {
             this.loading = false;
-            if (res && res.code==200) {
+            if (res && res.code == 200) {
               window.sessionStorage.setItem("token", res.token);
               this.$store.commit('initCurrentUser', res.data);
               window.sessionStorage.setItem("user", JSON.stringify(res.data));
               let path = this.$route.query.redirect;
               this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
-            }else if(res.code==201){
-              this.$message.error({message:res.message});
+            } else if (res.code == 201) {
+              this.$message.error({message: res.message});
               this.updateVerifyCode();
-            }else{
-              this.$message.error({message:res.message});
+            } else {
+              this.$message.error({message: res.message});
               this.updateVerifyCode();
             }
           })
@@ -100,16 +100,19 @@ export default {
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
+
 .loginTitle {
   margin: 15px auto 20px auto;
   text-align: center;
   color: #505458;
 }
+
 .loginRemember {
   text-align: left;
   margin: 0 0 15px 0;
 }
-.el-form-item__content{
+
+.el-form-item__content {
   display: flex;
   align-items: center;
 }

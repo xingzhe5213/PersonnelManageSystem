@@ -9,10 +9,14 @@
         <el-table-column type="selection" width="50" align="center"></el-table-column>
         <el-table-column width="150" align="center" prop="name" label="姓名"></el-table-column>
         <el-table-column width="150" align="center" prop="workID" label="工号"></el-table-column>
-        <el-table-column width="150" align="center"  label="金额">
+        <el-table-column width="150" align="center" label="金额">
           <template slot-scope="scope" v-if="scope.row.rpMoney">
-            ￥：<el-tag v-if="scope.row.rpType==0">{{scope.row.rpMoney}}</el-tag>
-            <el-tag v-if="scope.row.rpType==1" style="color: red;background-color: rgba(255,193,193,0.3);border-color: #ffcece;">{{scope.row.rpMoney}}</el-tag>
+            ￥：
+            <el-tag v-if="scope.row.rpType==0">{{ scope.row.rpMoney }}</el-tag>
+            <el-tag v-if="scope.row.rpType==1"
+                    style="color: red;background-color: rgba(255,193,193,0.3);border-color: #ffcece;">
+              {{ scope.row.rpMoney }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column width="200" align="center" prop="rpDate" label="时间"></el-table-column>
@@ -69,7 +73,8 @@
           <el-row>
             <el-form-item label="原因：" prop="rpReason">
               <label slot="label">原因：</label>
-              <el-input size="mini" type="textarea" style="width: 360px;" prefix-icon="fa fa-jpy" v-model="reward.rpReason"
+              <el-input size="mini" type="textarea" style="width: 360px;" prefix-icon="fa fa-jpy"
+                        v-model="reward.rpReason"
                         placeholder="请输入"></el-input>
             </el-form-item>
           </el-row>
@@ -141,7 +146,7 @@ export default {
         this.$refs['empForm'].clearValidate()
       })
       this.dialogVisible = true;
-      this.reward= {
+      this.reward = {
         eid: '',
         rpMoney: "",
         rpType: null,
@@ -152,14 +157,14 @@ export default {
       this.$refs['empForm'].validate(valid => {
         if (valid) {
           this.Post("/api/employee/reward", this.reward).then(res => {
-            if (res.code==200) {
+            if (res.code == 200) {
               this.$message({
                 message: '添加成功！',
                 type: 'success'
               });
               this.dialogVisible = false;
               this.initRewards();
-            }else if(res.code==201){
+            } else if (res.code == 201) {
               this.$message({
                 message: '该员工不存在，请检查工号是否正确！',
                 type: 'info'
@@ -170,7 +175,7 @@ export default {
       });
     },
     initRewards() {
-      this.Get("/api/employee/reward?size="+this.size+"&page="+this.page).then(res => {
+      this.Get("/api/employee/reward?size=" + this.size + "&page=" + this.page).then(res => {
         if (res) {
           this.rewards = res.data.list;
           this.total = res.data.total;
@@ -180,7 +185,7 @@ export default {
   },
   watch: {
     'dialogVisible': function (val) {
-      if(val==false){
+      if (val == false) {
         this.$nextTick(() => {
           this.$refs['empForm'].clearValidate()
         })
@@ -192,10 +197,11 @@ export default {
 </script>
 
 <style scoped>
-  .el-radio{
-    margin-right: 12px;
-  }
-  .el-radio__label{
-    padding-left: 5px;
-  }
+.el-radio {
+  margin-right: 12px;
+}
+
+.el-radio__label {
+  padding-left: 5px;
+}
 </style>

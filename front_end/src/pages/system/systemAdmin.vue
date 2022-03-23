@@ -117,7 +117,7 @@ export default {
   name: "systemAdmin",
   data() {
     return {
-      hrId:JSON.parse(window.sessionStorage.getItem("user")).id,
+      hrId: JSON.parse(window.sessionStorage.getItem("user")).id,
       keywords: '',
       hrs: [],
       selectedRoles: [],
@@ -198,7 +198,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Put("/api/sys/adm/leader/resetPasswd",{id:hr.id}).then(res => {
+        this.Put("/api/sys/adm/leader/resetPasswd", {id: hr.id}).then(res => {
           if (res.code == 200) {
             this.$message({
               message: '密码重置成功！初始密码为：123456',
@@ -343,7 +343,8 @@ export default {
   width: 350px;
   margin: 20px;
 }
-.icon-reset_password{
+
+.icon-reset_password {
   font-size: 14px;
 }
 </style>

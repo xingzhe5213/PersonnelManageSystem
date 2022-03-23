@@ -13,7 +13,7 @@
         ref="tree">
             <span class="custom-tree-node" style="display: flex;justify-content: space-between;width: 100%;"
                   slot-scope="{ node, data }">
-        <span>{{data.name }}</span>
+        <span>{{ data.name }}</span>
         <span>
           <el-button
               type="primary"
@@ -42,7 +42,7 @@
             <td>
               <el-tag>上级部门</el-tag>
             </td>
-            <td>{{pname}}</td>
+            <td>{{ pname }}</td>
           </tr>
           <tr>
             <td>
@@ -114,7 +114,7 @@ export default {
     doAddDep() {
       console.log(this.dep);
       this.Post("/api/sys/base/department", this.dep).then(res => {
-        if (res.code==200) {
+        if (res.code == 200) {
           this.addDep2Deps(this.deps, res.data[0]);
           this.dialogVisible = false;
           this.$message({
@@ -123,7 +123,7 @@ export default {
           });
           //初始化变量
           this.initDep();
-        }else{
+        } else {
           this.$message({
             message: '添加失败，请检查部门名称是否重复！',
             type: 'error'
@@ -131,8 +131,8 @@ export default {
         }
       })
     },
-    removeDepFromDeps(p,deps, id) {
-      for(let i=0;i<deps.length;i++){
+    removeDepFromDeps(p, deps, id) {
+      for (let i = 0; i < deps.length; i++) {
         let d = deps[i];
         if (d.id == id) {
           deps.splice(i, 1);
@@ -140,13 +140,13 @@ export default {
             p.parent = false;
           }
           return;
-        }else{
-          this.removeDepFromDeps(d,d.children, id);
+        } else {
+          this.removeDepFromDeps(d, d.children, id);
         }
       }
     },
     deleteDep(data) {
-      if (data.children.length>0) {
+      if (data.children.length > 0) {
         this.$message.error("请先删除所有子部门！！");
       } else {
         this.$confirm('此操作将永久删除【' + data.name + '】部门, 是否继续?', '提示', {
@@ -154,14 +154,14 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.Delete("/api/sys/base/department/?id="+data.id).then(res=>{
-            if (res.code==200) {
-              this.removeDepFromDeps(null,this.deps,data.id);
+          this.Delete("/api/sys/base/department/?id=" + data.id).then(res => {
+            if (res.code == 200) {
+              this.removeDepFromDeps(null, this.deps, data.id);
               this.$message({
                 type: 'success',
                 message: '删除成功！'
               });
-            }else if(res.code==201){
+            } else if (res.code == 201) {
               this.$message({
                 type: 'info',
                 message: '该部门人数不为0，删除失败！'

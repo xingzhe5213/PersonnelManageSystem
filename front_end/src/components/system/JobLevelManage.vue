@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     deleteMany() {
-      let count=0;
+      let count = 0;
       this.$confirm('此操作将永久删除【' + this.multipleSelection.length + '】条记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -179,14 +179,14 @@ export default {
     },
     doUpdate() {
       this.Put("/api/sys/base/joblevel", this.updateJl).then(res => {
-        if (res.code==200) {
+        if (res.code == 200) {
           this.$message({
             message: '修改成功！',
             type: 'success'
           });
           this.initJls();
           this.dialogVisible = false;
-        }else{
+        } else {
           this.$message({
             message: '修改失败，请检查职称名称是否重复！',
             type: 'error'
@@ -208,13 +208,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete("/api/sys/base/joblevel/?id=" + data.id).then(res => {
-          if (res.code==200) {
+          if (res.code == 200) {
             this.$message({
               message: '删除成功！',
               type: 'success'
             });
             this.initJls();
-          }else if(res.code==201){
+          } else if (res.code == 201) {
             this.$message({
               type: 'info',
               message: '该职位人数不为0，删除失败！'
@@ -231,13 +231,13 @@ export default {
     addJobLevel() {
       if (this.jl.name && this.jl.titleLevel) {
         this.Post("/api/sys/base/joblevel", this.jl).then(res => {
-          if (res.code==200) {
+          if (res.code == 200) {
             this.$message({
               message: '添加成功！',
               type: 'success'
             });
             this.initJls();
-          }else{
+          } else {
             this.$message({
               message: '添加失败，请检查职称名称是否重复！',
               type: 'error'

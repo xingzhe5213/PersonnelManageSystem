@@ -2,7 +2,7 @@
   <div v-if="per">
     <el-card class="box-card" style="width: 400px">
       <div slot="header" class="clearfix">
-        <span>{{per.name}}</span>
+        <span>{{ per.name }}</span>
       </div>
       <div>
         <div style="display: flex;justify-content: center">
@@ -16,14 +16,14 @@
           </el-upload>
         </div>
         <div style="margin: 10px 5px;">手机号码：
-          <el-tag>{{per.phone}}</el-tag>
+          <el-tag>{{ per.phone }}</el-tag>
         </div>
         <div style="margin: 10px 5px;">居住地址：
-          <el-tag>{{per.address}}</el-tag>
+          <el-tag>{{ per.address }}</el-tag>
         </div>
         <div style="margin: 10px 5px;">用户标签：
           <el-tag type="success" style="margin-right: 5px" v-for="(r,index) in per.roles" :key="index">
-            {{r.nameZH}}
+            {{ r.nameZH }}
           </el-tag>
         </div>
         <div style="display: flex;justify-content: space-around;margin-top: 20px">
@@ -114,7 +114,7 @@ export default {
     const validatePass1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
-      } else if(value.length<6){
+      } else if (value.length < 6) {
         callback(new Error('密码长度为6-16位'));
       } else {
         if (this.ruleForm.checkPass !== '') {
@@ -133,7 +133,7 @@ export default {
       }
     };
     return {
-      faceImg:"/face.png",
+      faceImg: "/face.png",
       ruleForm: {
         oldPass: '',
         pass: '',
@@ -165,10 +165,10 @@ export default {
         if (res) {
           this.per = res.data;
           this.per2 = Object.assign({}, this.per);
-          if(res.data.userface){
-            this.faceImg=res.data.userface;
-          }else{
-            this.faceImg="/face.png";
+          if (res.data.userface) {
+            this.faceImg = res.data.userface;
+          } else {
+            this.faceImg = "/face.png";
           }
           window.sessionStorage.setItem("user", JSON.stringify(res.data));
           this.$store.commit('initCurrentUser', res.data);
@@ -213,14 +213,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.Put("/api/person/passwd", {
-            oldpassword:(this.$md5(this.ruleForm.oldPass)).toUpperCase(),
-            password:(this.$md5(this.ruleForm.pass)).toUpperCase()
+            oldpassword: (this.$md5(this.ruleForm.oldPass)).toUpperCase(),
+            password: (this.$md5(this.ruleForm.pass)).toUpperCase()
           }).then(res => {
-            if (res.code==200) {
+            if (res.code == 200) {
               Message.success({
                 message: '密码修改成功，请重新登陆！！',
                 duration: 2000,
-                onClose:()=>{
+                onClose: () => {
                   window.sessionStorage.removeItem("user");
                   this.$store.commit('initToken', null);
                   this.$store.commit('initRoutes', []);

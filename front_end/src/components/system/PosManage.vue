@@ -103,8 +103,8 @@ export default {
       dialogVisible: false,
       loading: false,
       updatePos: {
-        name:"",
-        enabled:0
+        name: "",
+        enabled: 0
       },
       multipleSelection: [],
       positions: []
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     deleteMany() {
-      let count=0;
+      let count = 0;
       this.$confirm('此操作将永久删除【' + this.multipleSelection.length + '】条记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -148,14 +148,14 @@ export default {
     addPosition() {
       if (this.pos.name) {
         this.Post("/api/sys/base/position", this.pos).then(res => {
-          if (res.code==200) {
+          if (res.code == 200) {
             this.$message({
               message: '添加成功！',
               type: 'success'
             });
             this.initPositions();
             this.pos.name = '';
-          }else{
+          } else {
             this.$message({
               message: '添加失败，请检查职位名称是否重复！',
               type: 'error'
@@ -172,18 +172,18 @@ export default {
     },
     doUpdate() {
       this.Put("/api/sys/base/position", this.updatePos).then(res => {
-        if (res.code==200) {
+        if (res.code == 200) {
           this.$message({
             message: '修改成功！',
             type: 'success'
           });
           this.initPositions();
-          this.updatePos={
-            name:"",
-            enabled:0
+          this.updatePos = {
+            name: "",
+            enabled: 0
           };
           this.dialogVisible = false;
-        }else{
+        } else {
           this.$message({
             message: '修改失败，请检查职位名称是否重复！',
             type: 'error'
@@ -192,20 +192,20 @@ export default {
       })
     },
     handleDelete(index, data) {
-      let that=this;
+      let that = this;
       that.$confirm('此操作将永久删除【' + data.name + '】职位, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         that.Delete("/api/sys/base/position/?id=" + data.id).then(res => {
-          if (res.code==200) {
+          if (res.code == 200) {
             that.$message({
               message: '删除成功！',
               type: 'success'
             });
             that.initPositions();
-          }else if(res.code==201){
+          } else if (res.code == 201) {
             that.$message({
               type: 'info',
               message: '该职位人数不为0，删除失败！'

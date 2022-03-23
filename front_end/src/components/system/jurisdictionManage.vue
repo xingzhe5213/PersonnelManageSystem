@@ -53,7 +53,7 @@ export default {
   name: "jurisdictionManage",
   data() {
     return {
-      display:false,
+      display: false,
       role: {
         name: '',
         nameZH: ''
@@ -81,7 +81,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete("/api/sys/base/permiss/?id=" + role.id).then(res => {
-          if (res.code==200) {
+          if (res.code == 200) {
             this.$message({
               message: '删除成功！',
               type: 'success'
@@ -101,7 +101,7 @@ export default {
         this.globalLoading = true;
         this.Post("/api/sys/base/permiss", this.role).then(res => {
           this.globalLoading = false;
-          if (res.code==200) {
+          if (res.code == 200) {
             this.$message({
               message: '添加成功！',
               type: 'success'
@@ -109,7 +109,7 @@ export default {
             this.role.name = '';
             this.role.nameZH = '';
             this.initRoles();
-          }else{
+          } else {
             this.$message({
               message: '添加失败，请检查角色名称是否重复！',
               type: 'error'
@@ -120,28 +120,28 @@ export default {
         this.$message.error('数据不可以为空');
       }
     },
-    update(){
-      this.display=true;
+    update() {
+      this.display = true;
     },
     cancelUpdate() {
-      this.display=false;
+      this.display = false;
       this.activeName = -1;
     },
     doUpdate(rid, index) {
       let tree = this.$refs.tree[index];
       let selectedKeys = tree.getCheckedKeys(true);
       this.Put("/api/sys/base/permiss", {
-        id:rid,
-        mids:selectedKeys
+        id: rid,
+        mids: selectedKeys
       }).then(res => {
-        if (res.code==200) {
+        if (res.code == 200) {
           this.$message({
             message: '修改成功！',
             type: 'success'
           });
           this.activeName = -1;
-          this.display=false;
-        }else{
+          this.display = false;
+        } else {
           this.$message({
             message: '修改失败，请检查职称名称是否重复！',
             type: 'error'
@@ -150,7 +150,7 @@ export default {
       })
     },
     change(rid) {
-      this.display=false;
+      this.display = false;
       if (rid) {
         this.initAllMenus();
         this.initSelectedMenus(rid);

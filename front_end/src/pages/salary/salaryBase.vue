@@ -186,7 +186,7 @@ export default {
       })
       this.dialogTitle = '修改基本工资';
       this.dialogVisible = true;
-      this.salary=data;
+      this.salary = data;
     },
     deleteSalary(data) {
       this.$confirm('此操作将删除【' + data.name + '】基本工资，是否继续？', '提示', {
@@ -200,7 +200,7 @@ export default {
               type: 'success'
             });
             this.initSalaries();
-          }else if(res.code == 201){
+          } else if (res.code == 201) {
             this.$message({
               message: '删除失败，该基本工资尚在使用中！',
               type: 'error'
@@ -217,7 +217,7 @@ export default {
         this.$refs['empForm'].clearValidate()
       })
       this.dialogVisible = true;
-      this.salary= {
+      this.salary = {
         name: '',
         basicSalary: 0,
         trafficSalary: 0,
@@ -237,14 +237,14 @@ export default {
           if (valid) {
             console.log(this.salary)
             this.Put("/api/salary/baseSalary", this.salary).then(res => {
-              if (res.code==200) {
+              if (res.code == 200) {
                 this.$message({
                   message: '修改成功！',
                   type: 'success'
                 });
                 this.dialogVisible = false;
                 this.initSalaries();
-              }else if(res.code==201){
+              } else if (res.code == 201) {
                 this.$message({
                   message: '修改失败，请检查名称是否重复！',
                   type: 'error'
@@ -258,14 +258,14 @@ export default {
           if (valid) {
             console.log(this.salary)
             this.Post("/api/salary/baseSalary", this.salary).then(res => {
-              if (res.code==200) {
+              if (res.code == 200) {
                 this.$message({
                   message: '添加成功！',
                   type: 'success'
                 });
                 this.dialogVisible = false;
                 this.initSalaries();
-              }else if(res.code==201){
+              } else if (res.code == 201) {
                 this.$message({
                   message: '添加失败，请检查名称是否重复！',
                   type: 'error'
@@ -277,7 +277,7 @@ export default {
       }
     },
     initSalaries() {
-      this.Get("/api/salary/baseSalary?size="+this.size+"&page="+this.page).then(res => {
+      this.Get("/api/salary/baseSalary?size=" + this.size + "&page=" + this.page).then(res => {
         if (res) {
           this.salaries = res.data.list;
           this.total = res.data.total;
@@ -287,7 +287,7 @@ export default {
   },
   watch: {
     'dialogVisible': function (val) {
-      if(val==false){
+      if (val == false) {
         this.$nextTick(() => {
           this.$refs['empForm'].clearValidate()
         })

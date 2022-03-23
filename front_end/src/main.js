@@ -4,21 +4,21 @@ import router from './router'
 import store from './store'
 import md5 from 'js-md5';
 
-import ElementUI from  'element-ui';
-Vue.use(ElementUI);
+import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import ElSelectTree from 'el-select-tree';
+import {Delete, Get, Post, PostKey, Put} from "./utils/api";
+import {initMenu} from "./utils/menus";
+import 'font-awesome/css/font-awesome.min.css'
+
+import '/src/font/iconfont.css'
+
+Vue.use(ElementUI);
+
 Vue.use(ElSelectTree);
 
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
-
-import {Post} from "./utils/api";
-import {PostKey} from "./utils/api";
-import {Put} from "./utils/api";
-import {Delete} from "./utils/api";
-import {Get} from "./utils/api";
-import {initMenu} from "./utils/menus";
 
 Vue.prototype.Post = Post;
 Vue.prototype.PostKey = PostKey;
@@ -28,27 +28,23 @@ Vue.prototype.Get = Get;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$store = store;
 
-import 'font-awesome/css/font-awesome.min.css'
-
-import '/src/font/iconfont.css'
-
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/') {
-    next();
-  } else {
-    if (window.sessionStorage.getItem("user")) {
-      initMenu(router, store);
-      next();
-    } else {
-      next('/?redirect=' + to.path);
-    }
-  }
+	if (to.path == '/') {
+		next();
+	} else {
+		if (window.sessionStorage.getItem("user")) {
+			initMenu(router, store);
+			next();
+		} else {
+			next('/?redirect=' + to.path);
+		}
+	}
 })
 
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+	router,
+	store,
+	render: h => h(App),
 }).$mount('#app')
