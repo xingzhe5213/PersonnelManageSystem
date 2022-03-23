@@ -7,59 +7,61 @@
       <el-button icon="el-icon-plus" @click="dialogVisible = true">添加</el-button>
     </div>
     <div class="hr-container">
-      <el-card class="hr-card" v-for="(hr,index) in hrs" :key="index">
-        <div slot="header" class="clearfix">
-          <span>{{ hr.name }}</span>
-          <span style="float: right; padding: 3px 0;">
-            <el-button v-if="hr.id!=hrId" style="padding: 3px 0;color: #409eff;" type="text"
+      <el-card class="hr-card" v-for="(hr,index) in hrs" :key="index" v-show="hr.id!=hrId&&hr.username!='admin'">
+        <div v-if="hr.id!=hrId&&hr.username!='admin'">
+          <div slot="header" class="clearfix">
+            <span>{{ hr.name }}</span>
+            <span style="float: right; padding: 3px 0;">
+            <el-button style="padding: 3px 0;color: #409eff;" type="text"
                        icon="iconfont icon-reset_password" @click="resetPasswd(hr)"></el-button>
             <el-button style="padding: 3px 0;color: #e30007;font-size: 14px;" type="text"
                        icon="el-icon-delete" @click="deleteHr(hr)"></el-button>
           </span>
-        </div>
-        <div>
-          <div class="img-container">
-            <img v-if="hr.userface" :src="hr.userface" :alt="hr.name" :title="hr.name" class="userface-img">
-            <img v-if="!hr.userface" src="/face.png" :alt="hr.name" :title="hr.name" class="userface-img">
           </div>
-          <div class="userinfo-container">
-            <div style="font-size: 12px;margin:10px 0;">姓&emsp;&emsp;名：{{ hr.name }}</div>
-            <div style="font-size: 12px;margin:10px 0;">用&ensp;户&ensp;名：{{ hr.username }}</div>
-            <div style="font-size: 12px;margin:10px 0;">手机号码：{{ hr.phone }}</div>
-            <div style="font-size: 12px;margin:10px 0;">地&emsp;&emsp;址：{{ hr.address }}</div>
-            <div style="font-size: 12px;margin:10px 0;line-height: 20px;">用户状态：
-              <el-switch
-                  v-model="hr.enabled"
-                  :active-value="1"
-                  :inactive-value="0"
-                  active-text="启用"
-                  @change="enabledChange(hr)"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  inactive-text="禁用">
-              </el-switch>
+          <div>
+            <div class="img-container">
+              <img v-if="hr.userface" :src="hr.userface" :alt="hr.name" :title="hr.name" class="userface-img">
+              <img v-if="!hr.userface" src="/face.png" :alt="hr.name" :title="hr.name" class="userface-img">
             </div>
-            <div style="font-size: 12px;margin:10px 0;">用户角色：
-              <el-tag type="success" style="margin-right: 4px" v-for="(role,indexj) in hr.roles"
-                      :key="indexj">{{ role.nameZH }}
-              </el-tag>
-              <el-popover
-                  placement="right"
-                  title="角色列表"
-                  @show="showPop(hr)"
-                  @hide="hidePop(hr)"
-                  width="200"
-                  trigger="click">
-                <el-select v-model="selectedRoles" multiple placeholder="请选择">
-                  <el-option
-                      v-for="(r,indexk) in allroles"
-                      :key="indexk"
-                      :label="r.nameZH"
-                      :value="r.id">
-                  </el-option>
-                </el-select>
-                <el-button slot="reference" icon="el-icon-more" type="text"></el-button>
-              </el-popover>
+            <div class="userinfo-container">
+              <div style="font-size: 12px;margin:10px 0;">姓&emsp;&emsp;名：{{ hr.name }}</div>
+              <div style="font-size: 12px;margin:10px 0;">用&ensp;户&ensp;名：{{ hr.username }}</div>
+              <div style="font-size: 12px;margin:10px 0;">手机号码：{{ hr.phone }}</div>
+              <div style="font-size: 12px;margin:10px 0;">地&emsp;&emsp;址：{{ hr.address }}</div>
+              <div style="font-size: 12px;margin:10px 0;line-height: 20px;">用户状态：
+                <el-switch
+                    v-model="hr.enabled"
+                    :active-value="1"
+                    :inactive-value="0"
+                    active-text="启用"
+                    @change="enabledChange(hr)"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    inactive-text="禁用">
+                </el-switch>
+              </div>
+              <div style="font-size: 12px;margin:10px 0;">用户角色：
+                <el-tag type="success" style="margin-right: 4px" v-for="(role,indexj) in hr.roles"
+                        :key="indexj">{{ role.nameZH }}
+                </el-tag>
+                <el-popover
+                    placement="right"
+                    title="角色列表"
+                    @show="showPop(hr)"
+                    @hide="hidePop(hr)"
+                    width="200"
+                    trigger="click">
+                  <el-select v-model="selectedRoles" multiple placeholder="请选择">
+                    <el-option
+                        v-for="(r,indexk) in allroles"
+                        :key="indexk"
+                        :label="r.nameZH"
+                        :value="r.id">
+                    </el-option>
+                  </el-select>
+                  <el-button slot="reference" icon="el-icon-more" type="text"></el-button>
+                </el-popover>
+              </div>
             </div>
           </div>
         </div>
